@@ -1,2 +1,0 @@
-# geoffreybrennan.github.io
-Portfolio
