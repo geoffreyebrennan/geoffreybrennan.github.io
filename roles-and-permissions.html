@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roles &amp; Permissions — Geoffrey Brennan</title>
+<meta name="description" content="Case study: rebuilding Curve Dental's roles and permissions system — from UX leadership through product management to general availability.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="case-study.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a class="nav-mark" href="index.html"><span class="dot"></span>G. BRENNAN</a>
+    <a class="back-link" href="index.html#work">← Back to portfolio</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Case Study · UX Leadership → Product Management</div>
+    <h1 class="hero-title">The unglamorous system that unblocked millions in stalled sales.</h1>
+    <p class="hero-dek">Curve Dental's roles and permissions system was legacy, rigid, and a genuine liability — practices were losing money to fraud that better access controls could have prevented, and deals were stalling in sales demos over it. I led this project across two roles, first as UX lead and then as the product manager who took it to general availability.</p>
+  </section>
+
+  <div class="wrap">
+    <div class="titleblock">
+      <div><span class="tb-label">Roles</span><span class="tb-value">UX Team Lead → Product Manager</span></div>
+      <div><span class="tb-label">Company</span><span class="tb-value">Curve Dental</span></div>
+      <div><span class="tb-label">Timeline</span><span class="tb-value">9 months, initiation to GA</span></div>
+      <div><span class="tb-label">Focus</span><span class="tb-value">Access Control & User Management</span></div>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">The Challenge</span>
+      <h2 class="section-title">A permissions system that couldn't scale — or protect the business</h2>
+      <p>Curve Hero needed an extensive update to its user management and roles-and-permissions system — one granular enough to work for a single dentist's office and a multi-site Dental Service Organisation alike. Dental practices exist to care for patients and grow the business; team members need to work within the functions relevant to their role, nothing more.</p>
+      <p>Dental fraud costs practices across North America millions of dollars a year, and the legacy system couldn't enforce meaningful separation of duties. Customers needed real granular control, the ability to create custom roles, and a rebuilt User Management experience — all while the team was simultaneously working on multi-clinic support and a new patient engagement module that this system had to integrate with.</p>
+    </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">My Role</span>
+      <h2 class="section-title">UX lead, then product manager, on the same project</h2>
+      <p>This was a long-term project that spanned two roles for me. I started as UX Team Lead, running research and user interviews and guiding design work across a team of two designers and a business analyst. As the project moved into implementation, I became the product manager who carried it through implementation, beta and release — working with a multidisciplinary team to take it from architecture decisions to general availability.</p>
+    </div>
+  </section>
+
+  <div class="pullquote">
+    <div class="wrap">
+      <p>"The system had to work for small 'mom-and-pop' dental offices and very large Dental Service Organisations — with the same set of controls."</p>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">The Process</span>
+      <h2 class="section-title">Problem discovery</h2>
+      <p>The legacy system was a genuine drag on the business, not just a UX annoyance: it was a significant source of technical support calls, a recurring point of friction in sales demos, and — because it was so out of date architecturally and visually — a real blocker to closing deals with larger practices. Internal stakeholders had strong, competing opinions about how to fix it.</p>
+      <p>I spent the early phase setting up user-needs metrics we could hold every design concept against, alongside many hours of whiteboarding with architecture and engineering to align the design with what the backend could actually support. Research surfaced a consistent set of needs:</p>
+      <ul class="detail-list">
+        <li>A genuinely usable user directory — the legacy version was cumbersome enough for larger offices and DSOs that it was a named pain point in nearly every conversation.</li>
+        <li>Fast filtering and sorting of users, which sales reps flagged as a recurring friction point in demos.</li>
+        <li>Administrative visibility into active users and their permissions, with the ability to filter by clinic for multi-site practices.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pullquote">
+    <div class="wrap">
+      <p>"Function-based and location-based permissions are crucial to the dental practice management system today."</p>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <h3 class="sub-title">Design validation</h3>
+      <p>Validation happened in stages, early enough to actually shape the requirements rather than just check them. Internally, that meant dedicated sessions with individual stakeholders spanning the C-suite, engineering, sales and customer success — aligning scope and expectations while the architecture team evaluated infrastructure options in parallel.</p>
+      <p>Externally, I visited dental practices in person and ran a large number of remote sessions with practice administrators and dentist-owners across Canada and the US. A pattern emerged fast: because the legacy system was so limited, practices had built elaborate workarounds — duplicate dentist or hygienist profiles for different operatories, instance-specific codes to route around missing controls. Almost every interview produced some version of the same line: <em>"We do things differently in our practice."</em> That meant synthesising a lot of conflicting, practice-specific data into one coherent system rather than designing for a single "typical" customer.</p>
+    </div>
+  </section>
+
+  <div class="pullquote">
+    <div class="wrap">
+      <p>"Inadequate user management controls were holding our customers — and our sales teams — back."</p>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <p>What validated strongly: profile avatars or colour-coding to identify users at a glance, a roles filter for fast sorting, and — unsurprisingly, given how many administrators and dentist-owners had experienced fraud firsthand — real appetite for granular, location-based control in larger practices.</p>
+    </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">The Solution</span>
+      <h2 class="section-title">A centralised administration hub, built to scale</h2>
+      <p>The rebuilt User Directory gave practices a genuinely fast way to view, sort and filter users — by role, by clinic for multi-site practices, and with inactive users hidden by default, which mattered more than it sounds given how high staff turnover runs in dental practices.</p>
+      <p>The new roles and permissions model let practices assign flexible, granular roles built from individual permissions, with sensible defaults (like a default Accountant role) that couldn't be edited but could be duplicated and adapted. Where a user lacked a permission, the product blocked the action with a clear tooltip explaining what an administrator needed to enable — rather than failing silently or confusingly.</p>
+    </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">Results</span>
+      <h2 class="section-title">Millions in stalled sales, unblocked</h2>
+    </div>
+    <div class="wrap reveal">
+      <div class="specsheet">
+        <div class="spec">
+          <div class="spec-value">9 mo</div>
+          <div class="spec-label">From initiation to general availability</div>
+        </div>
+        <div class="spec">
+          <div class="spec-value">$M+</div>
+          <div class="spec-label">In stalled sales pipeline unblocked by the release</div>
+        </div>
+        <div class="spec">
+          <div class="spec-value">2 roles</div>
+          <div class="spec-label">UX Team Lead through to Product Manager, one continuous project</div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap reveal" style="margin-top:32px;">
+      <p>Work like this rarely looks impressive in a portfolio — there's no flashy screen to screenshot — but in most SaaS products, user management and permissions form the actual heart of the interaction. Existing customers were markedly more satisfied with the result, and compared to the legacy system it was a substantial upgrade in functionality, interactivity, aesthetics and security.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap reveal">
+      <span class="eyebrow">Takeaways</span>
+      <h2 class="section-title">What this taught me about architecture, rollout, and holding a line</h2>
+      <p>The biggest lesson wasn't about the design — it was about what happens when a SaaS product doesn't invest early in architectural-level decisions like this one. Left too long, they only get more expensive and disruptive to fix.</p>
+      <p>The rollout taught me something sharper: against design's recommendation, the implementation team activated the update by setting all users to read-only. Practices were seriously disrupted — some dentists couldn't access clinical modules while actively treating patients. It's not a mistake I'd want to repeat, and it shaped how carefully I plan activation sequencing on every rollout since.</p>
+      <p>I also learned to take documentation seriously as part of the design, not an afterthought — the team was augmented with a technical writer for this project, and it visibly improved how well customers accepted the change. And I learned to hold a line: several internal voices pushed for a faster, "quick and dirty" version, and the validation work is what won the argument for something more considered. It was a fight worth having.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="index.html#work">← Back to case studies</a>
+      <a href="mailto:geoffrey.e.brennan@gmail.com">geoffrey.e.brennan@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, {threshold:0.1});
+    reveals.forEach(el=>io.observe(el));
+  } else {
+    reveals.forEach(el=>el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
