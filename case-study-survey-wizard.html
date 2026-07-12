@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survey Selection Wizard — Geoffrey Brennan</title>
+<meta name="description" content="Case study: designing and shipping an onboarding wizard that solved Qlearsite's biggest activation problem — without waiting on engineering.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="case-study.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a class="nav-mark" href="index.html"><span class="dot"></span>G. BRENNAN</a>
+    <a class="back-link" href="index.html#history">← Back to portfolio</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="eyebrow">Case Study · Product Design &amp; Growth</div>
+    <h1 class="hero-title">Free users were stuck at step one. So I designed, wrote and built the fix myself.</h1>
+    <p class="hero-dek">Qlearsite's free trial offered 20+ survey templates, but most users never got past sending their first survey — which meant they never saw what the platform could actually do. I designed the Survey Selection Wizard to fix that, and when engineering support fell through, I built it myself.</p>
+  </section>
+
+  <div class="wrap">
+    <div class="titleblock">
+      <div><span class="tb-label">Role</span><span class="tb-value">Lead Designer</span></div>
+      <div><span class="tb-label">Company</span><span class="tb-value">Qlearsite</span></div>
+      <div><span class="tb-label">Tools</span><span class="tb-value">Appcues (no-code build)</span></div>
+      <div><span class="tb-label">Focus</span><span class="tb-value">Onboarding &amp; Trial Activation</span></div>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">The Challenge</span>
+      <h2 class="section-title">A free trial that never reached its "aha" moment</h2>
+      <p>Qlearsite's self-service application offered users a free trial and more than 20 survey templates to choose from — plenty of value, in theory. But analytics and anecdotal feedback both pointed to the same problem: users were getting stuck before they ever sent a survey. Too much choice, not enough guidance.</p>
+      <p>That mattered more than a typical onboarding hiccup. Our working hypothesis was that the crucial first survey was the moment the platform's value actually became visible to a customer — and that if people didn't get there, they weren't converting from free trial to paid, no matter how good the product was underneath.</p>
+    </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">My Role</span>
+      <h2 class="section-title">Concept, content, and build — all mine</h2>
+      <p>The idea for the Survey Selection Wizard was mine: a guided flow to help a new user identify the right survey template for their situation and get it out the door, rather than facing a wall of 20+ options cold. As Lead Designer, I didn't stop at the concept — I wrote the actual content and questions the wizard would use to steer someone to the right template, and ultimately built the finished tool myself.</p>
+    </div>
+  </section>
+
+  <div class="pullquote">
+    <div class="wrap">
+      <p>"If the crucial first survey went out, the platform's value would finally be visible — and conversions would follow."</p>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">Implementation</span>
+      <h2 class="section-title">When engineering wasn't available, I shipped it anyway</h2>
+      <p>The original plan assumed engineering support to build the wizard. That support disappeared when the war in Ukraine took our development team offline. Rather than let the project stall, I took the design and workflow I'd already validated and rebuilt it as a guided sequence of on-boarding steps directly in Appcues — a no-code product tour tool — so it could ship without waiting on a dev cycle that wasn't coming.</p>
+      <p>It meant owning the project end to end: not just designing the experience, but writing every question, sequencing every step, and configuring the tool myself to get it live.</p>
+    </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">Results</span>
+      <h2 class="section-title">A measurably smoother path to a user's first survey</h2>
+      <p>New users found creating a survey from a template noticeably more streamlined than before the wizard existed. Analytics confirmed people were actually using it — and, more importantly, generating that crucial first survey at a higher rate than before. That translated into a real lift in platform adoption and trial-to-paid conversion. <em>[Geoff: add specific conversion or activation metrics here if you have them]</em></p>
+    </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">Takeaways</span>
+      <h2 class="section-title">Resourcefulness beats waiting for the ideal setup</h2>
+      <p>This is the project I point to when someone asks whether I can execute, not just design. When the plan I'd built the concept around fell apart, the choice was to wait for circumstances to improve or to find another way to ship something that worked. Using a no-code tool to solve a real activation problem — writing the content myself, building the flow myself — is exactly the kind of scrappy, outcome-first thinking I bring to product work now.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="index.html#history">← Back to career history</a>
+      <a href="mailto:geoffrey.e.brennan@gmail.com">geoffrey.e.brennan@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
