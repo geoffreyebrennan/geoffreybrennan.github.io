@@ -1,14 +1,14 @@
 :root {
-  --paper: #F7F6F2;
-  --paper-alt: #EEEBE2;
+  --paper: #ece6de;
+  --paper-alt: #E7C769;
   --ink: #1C1B19;
   --muted: #6E6A61;
   --rule: #D8D2C3;
   --accent: #2E4057;
-  --accent-soft: #4A5F7C;
-  --brass: #9C7A3C;
-  --font-display: 'Fraunces', serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --accent-soft: #EC9464;
+  --brass: #c57d56;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
   --measure: 640px;
 }
@@ -373,7 +373,7 @@ main > div > img {
 
 .case-tag {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--brass);
