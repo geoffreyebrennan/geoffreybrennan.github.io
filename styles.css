@@ -422,6 +422,30 @@ h3.case-title {
   font-size: 13px;
 }
 
+.other-work-links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.other-work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--accent);
+  text-decoration: none;
+  width: fit-content;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.other-work-link:hover {
+  border-color: var(--accent);
+}
+
 .expertise-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
