@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billing Update — Geoffrey Brennan</title>
+<meta name="description" content="Case study: designing and shipping an onboarding wizard that solved Qlearsite's biggest activation problem — without waiting on engineering.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="case-study.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a class="nav-mark" href="index.html"><span class="dot"></span>G. BRENNAN</a>
+    <a class="back-link" href="index.html#history">← Back to portfolio</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="eyebrow">Case Study · Product Design &amp; Growth</div>
+    <h1 class="hero-title">The Billing system used in Curve Hero dental practice management software was completely rebuilt to provide better performance, scalability and an overall superior user experience.</h1>
+    <p class="hero-dek">The Billing rebuild took many months to complete from initiation to launch. At the start, I was lead of the UX team, with a primary responsibility for overseeing the design and establishing the UI.</p>
+<p>
+As the project matured, I was the Product Manager responsible for maintaining the team backlog, managing stakeholders, coordinating beta phases and staging the releases to customers.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NeMCsG82Yzk?si=_55Zpo-3VZxY-bd7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </section>
+
+  <div class="wrap">
+    <div class="titleblock">
+      <div><span class="tb-label">Role</span><span class="tb-value">Lead Designer/Product Manager</span></div>
+      <div><span class="tb-label">Company</span><span class="tb-value">Curve Dental</span></div>
+      <div><span class="tb-label">Tools</span><span class="tb-value">Jira, Axure RP, whiteboards</span></div>
+      <div><span class="tb-label">Focus</span><span class="tb-value">Retention &amp; TAM Expansion</span></div>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">The Challenge</span>
+      <h2 class="section-title">Rebuild billing into a faster, scalable module that modernizes workflows and usability without disrupting the familiar functionality dental practices rely on.</h2>
+      <p>For this release, Curve Dental took the opportunity to revamp the look of the Billing module while retaining the functionality of the legacy version. The aim of this update is to enhance the user experience and improve workflow efficiency.</p>
+<p>
+The layout of the new Billing module is generally the same as before, however, all transaction controls have now been moved to the top of the page. </p>
+<p>
+The accessibility and visibility of each control has been improved making it easier to locate and view each feature in the User Interface. Quick buttons provide convenient access to popular features including adding an invoice, account payment, or deposit, and printing statements. A quick button that expands and collapses all transactions in the billing ledger is also now available. </p>
+<p>
+Features that are used less frequently are contained in the Billing options menu. This includes adding a credit refund, creating a claim, generating a tax receipt, and , for US customers, accessing Care Credit resources.</p>
+<p>
+Data in the Billing ledger can be filtered using the Responsible Party drop-down menu or by using the date filters. Please note that only paid transactions can be filtered as unpaid transactions are always displayed in the billing ledger regardless of the filter settings.</p>
+      <img src="images\Curve-Hero-Billing-System.png" width="90%"="OOUX view of the proposed billing system.">
+    </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">My Role</span>
+      <h2 class="section-title">Concept, content, and build</h2>
+      <p>The new Billing module also includes an updated Line item selector dialog. New to this dialog is a list of recently used procedures, which helps make data entry quick and straightforward. Procedures can also be easily searched using the Browse function.</p> 
+</p>
+The new “Add another” button also means more than one line item can be entered at a time, which makes the process a lot faster than before. </p> 
+</p>
+One of the major differences between the new and legacy Billing modules is that the workflows are more isolated in the new Billing module. Now, anytime an invoice, deposit, or payment is created or edited, the Billing module will display a dedicated view of the workflow. </p> 
+</p>
+The purpose of this workflow is to create a focused view of the data, prevent errors, and ensure the accuracy of all inputted information. Furthermore, a confirmation dialog will display when cancelling a workflow task to verify whether unsaved modifications should be saved or discarded. The aim of this reminder is to reduce accidental data loss.</p>
+    </div>
+    <div> <img src="images\billing_whiteboard.png" alt="Billing system whiteboard work."></div>
+  </section>
+
+  <div class="pullquote">
+    <div class="wrap">
+      <p>Preserving familiar billing workflows while making common actions more visible and focused improves efficiency, reduce errors, and ease adoption.</p>
+    </div>
+  </div>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">Implementation</span>
+    
+      <p>The Site selector dialog has also been updated and now includes built-in intelligence features that automatically pre-select materials based on the selected procedure code. The expanded site selector makes picking tooth sites easier than ever. The new Surface field permits keyboard entry of a surface in any order and the Material drop-down menu only contains data relevant to the selected procedure code. If a procedure code requires the selection of an arch, quadrant, sextant, or tooth, the visuals of the site selector displays the information in an intuitive manner creating a more efficient user experience. </p>
+<p>
+Canadian lab codes are also easy to enter and show up distinctly in the ledger view.</p>
+<p>
+The Billing ledger has been redesigned to ensure all line items are clearly distinguishable helping prevent fatigue and making it easier to quickly scan through the data. The implementation of simple iconography makes it immediately evident as to which invoices have been paid or voided, and which invoices have an outstanding balance. The balance data clearly indicates what portion is owed by the patient or insurance. Invoices form the main group of data in the Billing ledger, with related sub-transactions shown below each invoice. Also, the date format in the new Billing ledger is easier to read. </p>
+    
+        <img src="images\billing_screen.png"  alt="Billing system screenshot.">
+        </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">Results</span>
+      <h2 class="section-title">A familiar, refined billing experience</h2>
+      <p>In the new Billing module, payments have been divided into patient payments and insurance payments. Adding a payment is as simple as right-clicking on the invoice row, and then selecting the payment, or the same menu can be brought up from the on-screen context menu button. Once again, payment creation and editing takes place in a dedicated view.</p>
+<p>
+The invoice history has also been updated and now includes the name of the clinic where the invoice was created or modified, if the practice has more than one clinic.</p>
+<p>
+While the appearance of the new Billing module demonstrates many of the changes this update represents, the real improvements are in the back-end of the system. These alterations will lead to a faster and more robust billing system. Furthermore, the changes made allow for even more future features in Curve Hero. </p>
+    
+       
+        </div>
+  </section>
+
+  <section class="section-rule">
+    <div class="wrap reveal">
+      <span class="eyebrow">Takeaways</span>
+      <h2 class="section-title">A successful billing-system rebuild balances familiar workflows with faster, clearer, error-resistant interactions and a scalable foundation for future growth.</h2>
+      <p>Other findings</p>
+      <ul>
+        <li>Keep familiar workflows during major rebuilds to reduce adoption friction.</li>
+        <li>Prioritize frequent billing tasks with visible, one-click controls.</li>
+<li>Use focused task views and save/discard confirmations to prevent costly data-entry errors.</li>
+<li>Make complex clinical-billing inputs smarter through context-aware defaults and filtering.</li>
+<li>Pair interface improvements with backend scalability so the product is both easier to use today and extensible tomorrow.</li>
+
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="index.html#history">← Back to career history</a>
+      <a href="mailto:geoffrey.e.brennan@gmail.com">geoffrey.e.brennan@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
