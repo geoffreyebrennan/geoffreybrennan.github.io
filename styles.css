@@ -275,7 +275,7 @@ main img {
   margin-top: 32px;
   margin-bottom: 32px;
   display: block;
-  width: 50%;
+  width: 75%;
   height: auto;
   margin: 0 auto;
 }
@@ -283,7 +283,7 @@ main img {
 section > div > img,
 main > div > img {
  
-  width: 50%;
+  width: 75%;
   max-width: 600px;
 }
 
