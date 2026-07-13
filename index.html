@@ -73,7 +73,7 @@
   </section>
 
   <!-- ============ SPEC SHEET ============ -->
-<section style="padding:0;">
+  <section style="padding:0;">
     <div class="wrap reveal">
       <div class="specsheet">
         <div class="spec">
@@ -94,16 +94,18 @@
         </div>
       </div>
     </div>
-</section>
+  </section>
+
   <!-- ============ How I Think ============ -->
-<section id="how_i_think" class="section-rule">
+  <section id="how_i_think" class="section-rule">
     <div class="wrap reveal">
       <h2 class="section-title">How I think about AI in product</h2>
-      <p>I don't think AI changes what good product management is — it changes how fast you find out you were wrong. The discipline is the same one I learned moving parts through CNC workflows: understand the physical or logical constraint before you promise a capability, and never let a roadmap outrun what the underlying system can actually deliver reliably.</p>
-    <p>What's different with AI is the shape of the risk. A CNC program either cuts the part correctly or it doesn't — the failure is loud and immediate. An AI feature can look like it's working in a demo and quietly erode trust in production for months before anyone notices the pattern. That's why I treat trust and legibility as product requirements, not nice-to-haves: a machinist won't run a program from a black box, and an operations team won't adopt an AI recommendation it can't audit. The work is building the confidence layer alongside the capability, not after it.</p>
-    <p>That's also why my industrial design and CAD/CAM background isn't a nostalgic detail on this site — it's the reason I know how to ask "what happens when this is wrong" before a customer has to ask it for me.</p>
+      <div class="profile-grid reveal">
+        <p>I don't think AI changes what good product management is — it changes how fast you find out you were wrong. The discipline is the same one I learned moving parts through CNC workflows: understand the physical or logical constraint before you promise a capability, and never let a roadmap outrun what the underlying system can actually deliver reliably.</p>
+        <p>What's different with AI is the shape of the risk. A CNC program either cuts the part correctly or it doesn't — the failure is loud and immediate. An AI feature can look like it's working in a demo and quietly erode trust in production for months before anyone notices the pattern. That's why I treat trust and legibility as product requirements, not nice-to-haves: a machinist won't run a program from a black box, and an operations team won't adopt an AI recommendation it can't audit. The work is building the confidence layer alongside the capability, not after it.</p>
+        <p>That's also why my industrial design and CAD/CAM background isn't a nostalgic detail on this site — it's the reason I know how to ask "what happens when this is wrong" before a customer has to ask it for me.</p>
+      </div>
     </div>
-
   </section>
 
   <!-- ============ CASE STUDIES ============ -->
@@ -132,17 +134,19 @@
             <div class="tb-item"><span class="tb-label">Duration</span><span class="tb-value">Jul 2023 — Present</span></div>
             <div class="tb-item"><span class="tb-label">Focus</span><span class="tb-value">AI Manufacturing Software</span></div>
           </div>
-          
-          <div class="case-copy">
-            <div class="case-stat-line">
+          <div class="case-stat-line">
             <p>Shipped to production, now core to CloudNC's AI manufacturing offering.</p>
           </div>
+          <div class="case-copy">
             <p>CNC programming is a genuinely deep discipline — tolerances, tool paths, machine physics — which makes it a hard problem for AI to touch credibly. I lead product strategy for CloudNC's AI-powered manufacturing software, which helps CNC programmers automate complex machining workflows without asking them to trust a black box.</p>
-            <div style="display:flex; justify-content:center; width:100%; margin-top: 32px; margin-bottom: 32px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/qhAbac9Fk64?si=kaZ_ox2ttGV5isa3&rel=0&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+            <div style="display:flex; justify-content:center; width:100%; margin-top: 32px; margin-bottom: 32px;">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/qhAbac9Fk64?si=kaZ_ox2ttGV5isa3&rel=0&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
             <p>That means owning the product from discovery through delivery: working directly with machinists and programmers to understand where automation genuinely earns its place in their workflow, translating that into a roadmap, and defending the technical credibility of the product with an engineering team that will not tolerate a feature that doesn't understand the physics of the cut.</p>
             <p>My background in CAD/CAM and industrial design isn't a nice-to-have here — it's what lets me have that conversation in the first place.</p>
-            <div style="display:flex; justify-content:center; width:100%;margin-top: 32px; margin-bottom: 32px;">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/vjNNu8Bs7x4?si=LmGWK0lfX9zoO1KO&rel=0&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+            <div style="display:flex; justify-content:center; width:100%; margin-top: 32px; margin-bottom: 32px;">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/vjNNu8Bs7x4?si=LmGWK0lfX9zoO1KO&rel=0&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
       </article>
@@ -181,7 +185,6 @@
           <div>
             <h3 class="case-title">Rebuilding perio charting from the clinic floor up</h3>
           </div>
-          
         </div>
         <div class="case-body">
           <div class="case-tb">
@@ -196,7 +199,7 @@
           <div class="case-copy">
             <p>Perio charting — the process hygienists use to record gum health, measurement by measurement, during every patient exam — is one of the most demanding clinical workflows in dental software: fast-paced, precision-dependent, and unforgiving of friction. I led the team that took it apart and rebuilt it.</p>
             <p>I led a team of UX designers and business analysts through the full cycle — conceptualising the redesign, validating it directly against real clinical workflows, and delivering it into production. Part of the job before that was building the team itself: recruiting designers and analysts and establishing a design culture and practice that didn't exist yet at Curve Dental.</p>
-            <p>This is the project that best shows the throughline into product management: the same discovery rigor and validation discipline, applied before I owned the roadmap outright. </p>
+            <p>This is the project that best shows the throughline into product management: the same discovery rigor and validation discipline, applied before I owned the roadmap outright.</p>
             <p><a class="case-link" href="perio-charting-rebuild.html">Read case study →</a></p>
           </div>
         </div>
@@ -219,7 +222,7 @@
       <div class="other-work-links reveal">
         <a class="other-work-link" href="case-study-survey-wizard.html">Case study: Survey wizard →</a>
       </div>
-       <div class="other-work-links reveal">
+      <div class="other-work-links reveal">
         <a class="other-work-link" href="case-study-billing_update.html">Case study: Dental billing system update →</a>
       </div>
       <div class="other-work-links reveal">
@@ -273,7 +276,6 @@
             <li>Manufacturing &amp; CAD/CAM</li>
             <li>Healthcare Software</li>
             <li>Industrial Design</li>
-            <li> </li>
             <li>Jira</li>
             <li>Figma</li>
             <li>AI tools</li>
