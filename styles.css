@@ -393,8 +393,9 @@ h3.case-title {
 
 .case-body {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 200px minmax(0, 1fr);
   gap: 40px;
+  align-items: start;
 }
 
 @media (max-width: 700px) {
@@ -421,6 +422,14 @@ h3.case-title {
   font-family: var(--font-mono);
   font-size: 14px;
   color: var(--ink);
+}
+
+.case-stat-line {
+  grid-column: 2;
+}
+
+.case-copy {
+  grid-column: 2;
 }
 
 .case-stat-line p {
@@ -572,7 +581,7 @@ h2.footer-title {
   line-height: 1.15;
 }
 
-h2.footer-title em { font-style: italic; color: #B8935A; }
+h2.footer-title em { font-style: italic; color: #d8e3f7; }
 .footer-contacts {
   margin-top: 56px;
   display: grid;
