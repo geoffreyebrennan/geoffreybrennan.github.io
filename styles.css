@@ -71,7 +71,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(247, 246, 242, 0.92);
+  background: #d8e3f7;
   backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--rule);
 }
