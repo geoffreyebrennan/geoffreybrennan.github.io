@@ -1,12 +1,13 @@
 :root {
-  --paper: #f2f7ff;
+  --paper: #4D4D4D;
   --paper-alt: #d8e3f7;
-  --ink: #1C1B19;
-  --muted: #6E6A61;
-  --rule: #D8D2C3;
-  --accent: #2E4057;
-  --accent-soft: #EC9464;
-  --brass: #c57d56;
+  --header: #323232;
+  --ink: #DEDEDE;
+  --muted: #f7f5cd;
+  --rule: #f7f5cd;
+  --accent: #F8F58E ;
+  --accent-soft: #f7f5cd;
+  --brass: #F8F58E;
   --font-display: 'Playfair Display', serif;
   --font-body: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
@@ -71,7 +72,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #d8e3f7;
+  background: var(--header);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--rule);
 }
@@ -200,7 +201,7 @@ h1.hero-headline em {
 
 .hero-name {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 26px;
 }
 
 .hero-title {
@@ -237,7 +238,7 @@ h1.hero-headline em {
 }
 
 section { padding: 100px 0; }
-.section-rule { border-top: 1px solid var(--rule); }
+/*.section-rule { border-top: 1px solid var(--rule); } */
 
 .section-head {
   display: flex;
@@ -257,7 +258,7 @@ section { padding: 100px 0; }
 
 h2.section-title {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 500;
   font-size: clamp(28px, 3vw, 40px);
   letter-spacing: -0.01em;
 }
@@ -570,7 +571,7 @@ h3.case-title {
 }
 
 footer {
-  background: var(--ink);
+  background: var(--header);
   color: var(--paper);
   padding: 100px 0 48px;
 }
@@ -584,20 +585,19 @@ h2.footer-title {
   line-height: 1.15;
 }
 
-h2.footer-title em { font-style: italic; color: #d8e3f7; }
+h2.footer-title em { font-style: italic; color: var(--accent); }
 .footer-contacts {
   margin-top: 56px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  border-top: 1px solid #3A3835;
   padding-top: 32px;
 }
 
 .footer-contacts a, .footer-contacts span {
   font-family: var(--font-mono);
   font-size: 13px;
-  color: #C9C4B8;
+  color: var(--accent-soft);
   text-decoration: none;
   display: block;
 }
@@ -606,7 +606,7 @@ h2.footer-title em { font-style: italic; color: #d8e3f7; }
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #6E6A61;
+  color: var(--muted);
   margin-bottom: 8px;
 }
 
@@ -619,12 +619,12 @@ h2.footer-title em { font-style: italic; color: #d8e3f7; }
 .footer-bottom {
   margin-top: 64px;
   padding-top: 24px;
-  border-top: 1px solid #3A3835;
+  border-top: 1px solid var(--rule);
   display: flex;
   justify-content: space-between;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: #6E6A61;
+  color: var(--muted);
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -782,8 +782,8 @@ h2.footer-title em { font-style: italic; color: #d8e3f7; }
 .case-study-page ul.detail-list li:first-child { border-top: 1px solid var(--rule); }
 
 .case-study-page .pullquote {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--header);
+  color: var(--accent-soft);
   padding: 56px 40px;
   margin: 0;
 }
@@ -797,7 +797,6 @@ h2.footer-title em { font-style: italic; color: #d8e3f7; }
   font-size: clamp(22px, 3.2vw, 32px);
   line-height: 1.3;
   max-width: 720px;
-  color: var(--paper);
 }
 
 .case-study-page .specsheet {
