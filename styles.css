@@ -392,21 +392,26 @@ h3.case-title {
 }
 
 .case-body {
-  display: grid;
-  grid-template-columns: 200px minmax(0, 1fr);
-  column-gap: 40px;
-  row-gap: 0;
-  align-items: start;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 700px) {
-  .case-body { grid-template-columns: 1fr; column-gap: 0; row-gap: 24px; }
+  .case-body { flex-direction: column; gap: 24px; }
 }
 
 .case-tb {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  flex: 0 0 200px;
+  min-width: 200px;
+}
+
+.case-copy {
+  flex: 1 1 0;
 }
 
 .case-tb .tb-item .tb-label {
