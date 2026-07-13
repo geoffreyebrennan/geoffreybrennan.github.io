@@ -423,6 +423,13 @@ h3.case-title {
   color: var(--ink);
 }
 
+.case-stat-line p {
+  font-size: 16px;
+  color: var(--brass);
+  max-width: 640px;
+  margin-bottom: 18px;
+}
+
 .case-copy p {
   font-size: 16px;
   color: var(--ink);
