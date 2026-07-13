@@ -430,10 +430,11 @@ h3.case-title {
 }
 
 .case-stat-line p {
-  font-size: 16px;
-  color: var(--brass);
-  max-width: 640px;
-  margin-bottom: 18px;
+  font-size: 16px !important;
+  color: var(--brass) !important;
+  max-width: 640px !important;
+  margin-bottom: 18px !important;
+  font-weight: 600 !important;
 }
 
 .case-copy p {
