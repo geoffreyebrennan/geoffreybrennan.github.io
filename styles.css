@@ -216,6 +216,7 @@ h1.hero-headline em {
 .dim-line {
   position: relative;
   padding-top: 14px;
+  display: flex;
 }
 
 .dim-line::before {
@@ -439,7 +440,7 @@ h3.case-title {
 }
 
 .case-stat-line p {
-  font-size: 16px !important;
+  font-size: 20px !important;
   color: var(--brass) !important;
   max-width: 640px !important;
   margin-bottom: 18px !important;
