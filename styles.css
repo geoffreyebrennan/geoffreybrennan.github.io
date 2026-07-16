@@ -463,6 +463,12 @@ h3.case-title {
   font-size: 13px;
 }
 
+.other-work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .other-work-links {
   display: flex;
   flex-direction: column;

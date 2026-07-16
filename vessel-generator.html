@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Parametric Vessel — Generator</title>
+<link rel="icon" type="image/x-icon" href="images/vg-favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-voronoi/1.1.2/d3-voronoi.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=dark_mode" />
+<style>
+  :root{
+    --paper:#F2F2F2;
+    --ink:#1B1B18;
+    --ink-soft:#5c5b54;
+    --blueprint:#1c5ab8;
+    --grid:#DCD8CC;
+    --copper:#d36d13;
+    --panel-bg:#F2F2F2;
+    --input-bg:#ffffff;
+  }
+  body.dark{
+    --paper:#181815;
+    --ink:#EDEAE0;
+    --ink-soft:#8f8d80;
+    --blueprint:#7EA2DE;
+    --grid:#333229;
+    --copper:#d36d13;
+    --panel-bg:#181815;
+    --input-bg:#181815;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; background:var(--paper); color:var(--ink); font-family:'Open Sans', sans-serif; overflow:hidden; }
+  body{ transition: background 0.2s ease, color 0.2s ease; }
+  #sidebar, .val, button, canvas{ transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+
+  #app{ display:flex; height:100vh; width:100vw; }
+
+  /* ---- SIDEBAR ---- */
+  #sidebar{
+    width:340px; flex-shrink:0; background:var(--panel-bg);
+    border-right:1px solid var(--ink); display:flex; flex-direction:column;
+    height:100%; overflow-y:auto;
+  }
+  .brand{
+    padding:22px 22px 16px 22px; border-bottom:1px solid var(--grid);
+  }
+  .brand-top{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;
+  }
+  .brand .eyebrow{
+    font-family:'Open Sans', sans-serif; font-size:10.5px; letter-spacing:0.12em;
+    color:var(--blueprint); margin-bottom:0;
+  }
+  #theme-toggle{
+    font-family:'Open Sans', sans-serif; font-size:10px; letter-spacing:0.06em;
+    padding:4px 10px; border:1px solid var(--ink); background:transparent; color:var(--ink);
+    border-radius:10px; cursor:pointer;
+    display:flex; 
+    align-items:center; 
+    gap:4px;
+  }
+  #theme-toggle:hover{ background:var(--ink); color:var(--paper); }
+  .brand h1{
+    font-family:'Open Sans', sans-serif; font-weight:500; font-size:26px; line-height:1.05;
+    margin:12px 0 0 0; letter-spacing:-0.01em; display:flex; align-items:center; gap:8px;
+  }
+  .brand p{
+    font-size:12.5px; color:var(--ink-soft); margin:8px 0 0 0; line-height:1.5;
+  }
+
+  .group{ padding:18px 22px; border-bottom:1px solid var(--grid); }
+  .group-label{
+    font-family:'Open Sans', sans-serif; font-size:10px; letter-spacing:0.1em;
+    color:var(--ink-soft); margin-bottom:14px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .field{ margin-bottom:16px; }
+  .field:last-child{ margin-bottom:0; }
+  .field-head{
+    display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;
+  }
+  .field-head label{ font-size:12.5px; font-weight:500; }
+  .field-head .val{
+    font-family:'Open Sans', sans-serif; font-size:12px; color:var(--blueprint);
+    background:var(--input-bg); border:1px solid var(--grid); padding:1px 6px; border-radius:2px; min-width:44px; text-align:right;
+  }
+  input[type=range]{
+    width:100%; -webkit-appearance:none; appearance:none; height:2px; background:var(--ink);
+    outline:none; margin:0;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:13px; height:13px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--blueprint); cursor:pointer; margin-top:0;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:11px; height:11px; border-radius:50%; background:var(--paper);
+    border:2px solid var(--blueprint); cursor:pointer;
+  }
+
+  .toggle-row{ display:flex; gap:8px; }
+  .mode-btn{
+    flex:1; font-family:'Open Sans', sans-serif; font-size:11px; letter-spacing:0.05em;
+    padding:9px 6px; border:1px solid var(--ink); background:transparent;
+    color:var(--ink); cursor:pointer; text-align:center; border-radius: 10px;
+  }
+  .mode-btn.active{ background:var(--blueprint); border-color:var(--blueprint); color:#fff; }
+  .sub-note{ font-size:11px; color:var(--ink-soft); line-height:1.5; margin:2px 0 14px 0; }
+
+  .swatches{ display:flex; gap:8px; }
+  .swatch{
+    width:26px; height:26px; border-radius:50%; cursor:pointer; border:2px solid transparent;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+  }
+  .swatch.active{ border-color:var(--blueprint); }
+
+  .actions{ padding:18px 22px; display:flex; flex-direction:column; gap:10px; margin-top:auto; border-radius: 10px; }
+  button{
+    font-family:'Open Sans', sans-serif; font-size:11.5px; letter-spacing:0.06em;
+    padding:12px 14px; border-radius:10px; cursor:pointer;
+    border:1px solid var(--ink); background:transparent; color:var(--ink);
+    transition:background 0.15s, color 0.15s;
+  }
+  button:hover{ background:var(--ink); color:var(--paper); }
+  button.primary{
+    background:var(--copper); border-color:var(--copper); color:#fff;
+  }
+  button.primary:hover{ background:#96501a; border-color:#96501a; }
+
+  /* ---- VIEWPORT ---- */
+  #viewport-wrap{ position:relative; flex:1; height:100%; }
+  #canvas-holder{ position:absolute; inset:0; }
+  canvas{ display:block; }
+  #orientation-cube{
+    position:absolute; top:38px; right:18px; width:112px; height:112px;
+    cursor:pointer; z-index:2;
+  }
+  #orientation-cube canvas{ width:100%; height:100%; }
+
+  .crop{ position:absolute; width:22px; height:22px; pointer-events:none; }
+  .crop.tl{ top:14px; left:14px; border-top:1.5px solid var(--ink); border-left:1.5px solid var(--ink); }
+  .crop.tr{ top:14px; right:14px; border-top:1.5px solid var(--ink); border-right:1.5px solid var(--ink); }
+  .crop.bl{ bottom:64px; left:14px; border-bottom:1.5px solid var(--ink); border-left:1.5px solid var(--ink); }
+  .crop.br{ bottom:64px; right:14px; border-bottom:1.5px solid var(--ink); border-right:1.5px solid var(--ink); }
+
+  .hint{
+    position:absolute; top:16px; left:50%; transform:translateX(-50%);
+    font-family:'Open Sans', sans-serif; font-size:10.5px; color:var(--ink-soft);
+    letter-spacing:0.05em; pointer-events:none;
+  }
+
+  /* ---- TITLE BLOCK ---- */
+  #titleblock{
+    position:absolute; bottom:0; left:0; right:0; height:50px;
+    background:var(--paper); border-top:1px solid var(--ink);
+    display:flex; font-family:'Open Sans', sans-serif; font-size:10.5px;
+  }
+  .tb-cell{
+    border-right:1px solid var(--grid); padding:6px 16px; display:flex; flex-direction:column; justify-content:center;
+  }
+  .tb-cell:last-child{ border-right:none; }
+  .tb-cell .k{ color:var(--ink-soft); font-size:8.5px; letter-spacing:0.08em; }
+  .tb-cell .v{ font-size:12px; color:var(--ink); margin-top:2px; }
+  .tb-cell.grow{ flex:1; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="sidebar">
+    <div class="brand">
+      <div class="brand-top">
+        <div class="eyebrow">Rev. 01 — Fig. Vessel</div>
+        <button id="theme-toggle" aria-label="Toggle dark mode"><span class="material-symbols-outlined">
+dark_mode
+</span>Dark mode</button>
+      </div>
+      <div>
+      <h1><img src="images/vessel-generator-icon.png">Parametric Vessel Generator</h1>
+      </div>
+      <p>Sculpt a printable form, skin it smooth or as an open lattice, then export STL or OBJ for slicing.</p>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Profile</div>
+      <div class="field">
+        <div class="field-head"><label>Height</label><span class="val" id="v-height">180 mm</span></div>
+        <input type="range" id="height" min="60" max="300" step="1" value="180">
+      </div>
+      <div class="field">
+        <div class="field-head"><label>Base radius</label><span class="val" id="v-baseRadius">45 mm</span></div>
+        <input type="range" id="baseRadius" min="10" max="80" step="1" value="45">
+      </div>
+      <div class="field">
+        <div class="field-head"><label>Neck radius</label><span class="val" id="v-topRadius">30 mm</span></div>
+        <input type="range" id="topRadius" min="5" max="80" step="1" value="30">
+      </div>
+      <div class="field">
+        <div class="field-head"><label>Belly bulge</label><span class="val" id="v-bulge">25 mm</span></div>
+        <input type="range" id="bulge" min="-30" max="60" step="1" value="25">
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Opening</div>
+      <div class="sub-note" id="opening-hint">A wide mouth, matching the neck — set this narrower for a rimmed lip, or to zero to close it off.</div>
+      <div class="field">
+        <div class="field-head"><label>Opening radius</label><span class="val" id="v-openingRadius">30 mm</span></div>
+        <input type="range" id="openingRadius" min="0" max="100" step="1" value="30">
+      </div>
+      <div id="wall-thickness-controls">
+        <div class="field" style="margin-top:16px;">
+          <div class="field-head"><label>Wall thickness</label><span class="val" id="v-wallThickness">3 mm</span></div>
+          <input type="range" id="wallThickness" min="0.6" max="10" step="0.1" value="3">
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Surface</div>
+      <div class="toggle-row">
+        <button class="mode-btn active" data-mode="smooth">Smooth</button>
+        <button class="mode-btn" data-mode="voronoi">Voronoi</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Texture</div>
+
+      <div id="flute-controls">
+        <div class="field">
+          <div class="field-head"><label>Flute count</label><span class="val" id="v-rippleCount">8</span></div>
+          <input type="range" id="rippleCount" min="0" max="24" step="1" value="8">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Flute depth</label><span class="val" id="v-rippleDepth">4 mm</span></div>
+          <input type="range" id="rippleDepth" min="0" max="15" step="0.5" value="4">
+        </div>
+      </div>
+
+      <div id="voronoi-controls" style="display:none">
+        <div class="sub-note">Open cell lattice, draped over the profile below — with a solid printable rim top and bottom.</div>
+        <div class="field">
+          <div class="field-head"><label>Cell count</label><span class="val" id="v-cellCount">70</span></div>
+          <input type="range" id="cellCount" min="16" max="160" step="1" value="70">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Strut thickness</label><span class="val" id="v-strutThickness">2.4 mm</span></div>
+          <input type="range" id="strutThickness" min="0.8" max="6" step="0.1" value="2.4">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Rim width</label><span class="val" id="v-rimWidth">6 mm</span></div>
+          <input type="range" id="rimWidth" min="2" max="20" step="0.5" value="6">
+        </div>
+        <button id="shuffle" style="width:100%; margin-top:4px;">Shuffle pattern</button>
+      </div>
+
+      <div class="field" style="margin-top:16px;">
+        <div class="field-head"><label>Twist</label><span class="val" id="v-twist">90°</span></div>
+        <input type="range" id="twist" min="-360" max="360" step="1" value="90">
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Material color</div>
+      <div class="swatches" id="swatches">
+        <div class="swatch active" data-color="#f3f3f3" style="background:#f3f3f3"></div>
+        <div class="swatch active" data-color="#9f96b3" style="background:#9f96b3"></div>
+        <div class="swatch" data-color="#353635" style="background:#353635"></div>
+        <div class="swatch" data-color="#B5651D" style="background:#B5651D"></div>
+        <div class="swatch" data-color="#2ea74a" style="background:#2ea74a"></div>
+        <div class="swatch" data-color="#1751a8" style="background:#1751a8"></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="randomize">Randomize form</button>
+      <button id="export" class="primary">Export STL</button>
+      <button id="export-obj">Export OBJ</button>
+    </div>
+  </div>
+
+  <div id="viewport-wrap">
+    <div id="canvas-holder"></div>
+    <div id="orientation-cube" title="Click a face to align the view" aria-label="View orientation cube"></div>
+    <div class="crop tl"></div><div class="crop tr"></div>
+    <div class="crop bl"></div><div class="crop br"></div>
+    <div class="hint">drag to orbit · scroll to zoom</div>
+    <div id="titleblock">
+      <div class="tb-cell"><div class="k">Part</div><div class="v" id="tb-part">VSL-0001</div></div>
+      <div class="tb-cell"><div class="k">Material</div><div class="v">PLA / PETG — vase mode</div></div>
+      <div class="tb-cell"><div class="k">Dimensions</div><div class="v" id="tb-dims">180 × 105 mm</div></div>
+      <div class="tb-cell grow"><div class="k">Rev</div><div class="v" id="tb-rev">01</div></div>
+      <div class="tb-cell"><div class="k">Date</div><div class="v" id="tb-date">—</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ---------- state ----------
+const params = {
+  height: 180, baseRadius: 45, topRadius: 30, bulge: 25,
+  rippleCount: 8, rippleDepth: 4, twist: 90,
+  mode: 'smooth', cellCount: 70, strutThickness: 2.4, rimWidth: 6,
+  openingRadius: 30, wallThickness: 3,
+  color: '#EDEAE0'
+};
+let revision = 1;
+let latticeData = null;
+
+// ---------- three.js setup ----------
+const holder = document.getElementById('canvas-holder');
+const scene = new THREE.Scene();
+
+const THEME_COLORS = {
+  light: { bg:0xFEFEFE, grid:0xDCD8CC },
+  dark:  { bg:0x181815, grid:0x333229 }
+};
+scene.background = new THREE.Color(THEME_COLORS.light.bg);
+
+const camera = new THREE.PerspectiveCamera(38, holder.clientWidth/holder.clientHeight, 0.1, 5000);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(holder.clientWidth, holder.clientHeight);
+holder.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+const key = new THREE.DirectionalLight(0xffffff, 0.9);
+key.position.set(120, 220, 160);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xffffff, 0.35);
+fill.position.set(-150, 60, -100);
+scene.add(fill);
+
+// subtle ground grid, drawing-sheet style
+let grid = new THREE.GridHelper(500, 25, 0xDCD8CC, 0xDCD8CC);
+grid.position.y = 0;
+scene.add(grid);
+
+// ---------- orientation cube ----------
+const orientationHolder = document.getElementById('orientation-cube');
+const orientationScene = new THREE.Scene();
+const orientationCamera = new THREE.OrthographicCamera(-1.5, 1.5, 1.5, -1.5, 0.1, 10);
+orientationCamera.position.set(0, 0, 4);
+orientationCamera.lookAt(0, 0, 0);
+const orientationRenderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+orientationRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+orientationRenderer.setSize(112, 112);
+orientationHolder.appendChild(orientationRenderer.domElement);
+
+const orientationCube = new THREE.Group();
+orientationScene.add(orientationCube);
+const orientationFaceNames = ['RIGHT', 'LEFT', 'TOP', 'BOTTOM', 'FRONT', 'BACK'];
+const orientationFaceTextures = orientationFaceNames.map(name => {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 128;
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+  texture.userData = { name, canvas };
+  return texture;
+});
+const orientationMaterials = orientationFaceTextures.map(texture => new THREE.MeshBasicMaterial({ map:texture }));
+const orientationMesh = new THREE.Mesh(new THREE.BoxGeometry(1.3, 1.3, 1.3), orientationMaterials);
+orientationCube.add(orientationMesh);
+const orientationEdgeMaterial = new THREE.LineBasicMaterial({ color:0x1B1B18 });
+orientationCube.add(new THREE.LineSegments(
+  new THREE.EdgesGeometry(orientationMesh.geometry),
+  orientationEdgeMaterial
+));
+
+function updateOrientationCubeTheme(isDark){
+  const background = isDark ? '#302f29' : '#f8f7f2';
+  const ink = isDark ? '#edeae0' : '#1b1b18';
+  const border = isDark ? '#8f8d80' : '#5c5b54';
+  orientationEdgeMaterial.color.set(ink);
+  orientationFaceTextures.forEach(texture => {
+    const context = texture.userData.canvas.getContext('2d');
+    context.fillStyle = background;
+    context.fillRect(0, 0, 128, 128);
+    context.strokeStyle = border;
+    context.lineWidth = 4;
+    context.strokeRect(2, 2, 124, 124);
+    context.fillStyle = ink;
+    context.font = '600 20px Open Sans, sans-serif';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(texture.userData.name, 64, 64);
+    texture.needsUpdate = true;
+  });
+}
+updateOrientationCubeTheme(false);
+
+function applyTheme(isDark){
+  const c = isDark ? THEME_COLORS.dark : THEME_COLORS.light;
+  scene.background = new THREE.Color(c.bg);
+  scene.remove(grid);
+  grid.geometry.dispose();
+  grid.material.dispose();
+  grid = new THREE.GridHelper(500, 25, c.grid, c.grid);
+  grid.position.y = 0;
+  scene.add(grid);
+  updateOrientationCubeTheme(isDark);
+}
+
+let mesh = null;
+const material = new THREE.MeshStandardMaterial({ color: params.color, roughness:0.55, metalness:0.08, side: THREE.DoubleSide });
+
+// ---------- orbit (custom, lightweight) ----------
+let camDist = 420, camTheta = Math.PI*0.28, camPhi = Math.PI*0.38;
+let target = new THREE.Vector3(0, 90, 0);
+function updateCamera(){
+  const x = target.x + camDist * Math.sin(camPhi) * Math.sin(camTheta);
+  const y = target.y + camDist * Math.cos(camPhi);
+  const z = target.z + camDist * Math.sin(camPhi) * Math.cos(camTheta);
+  camera.position.set(x,y,z);
+  camera.lookAt(target);
+  orientationCube.quaternion.copy(camera.quaternion).invert();
+}
+let dragging = false, lastX=0, lastY=0;
+renderer.domElement.addEventListener('pointerdown', e=>{ dragging=true; lastX=e.clientX; lastY=e.clientY; });
+window.addEventListener('pointerup', ()=> dragging=false);
+window.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  lastX = e.clientX; lastY = e.clientY;
+  camTheta -= dx * 0.006;
+  camPhi = Math.min(Math.max(camPhi - dy*0.006, 0.15), Math.PI-0.15);
+  updateCamera();
+});
+renderer.domElement.addEventListener('wheel', e=>{
+  e.preventDefault();
+  camDist = Math.min(Math.max(camDist + e.deltaY*0.4, 120), 1200);
+  updateCamera();
+}, { passive:false });
+
+const orientationRaycaster = new THREE.Raycaster();
+const orientationPointer = new THREE.Vector2();
+const orientationViews = [
+  { theta:Math.PI / 2, phi:Math.PI / 2 },
+  { theta:-Math.PI / 2, phi:Math.PI / 2 },
+  { theta:0, phi:0.01 },
+  { theta:0, phi:Math.PI - 0.01 },
+  { theta:0, phi:Math.PI / 2 },
+  { theta:Math.PI, phi:Math.PI / 2 }
+];
+orientationRenderer.domElement.addEventListener('pointerdown', event => event.stopPropagation());
+orientationRenderer.domElement.addEventListener('click', event => {
+  const rect = orientationRenderer.domElement.getBoundingClientRect();
+  orientationPointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  orientationPointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  orientationRaycaster.setFromCamera(orientationPointer, orientationCamera);
+  const hit = orientationRaycaster.intersectObject(orientationMesh)[0];
+  if (!hit) return;
+  const view = orientationViews[hit.face.materialIndex];
+  camTheta = view.theta;
+  camPhi = view.phi;
+  updateCamera();
+});
+
+// ---------- geometry generation ----------
+function profileRadius(v, p){
+  const lerped = p.baseRadius + (p.topRadius - p.baseRadius) * v;
+  const bulgeShape = Math.sin(Math.PI * v); // peaks at v=0.5
+  return Math.max(lerped + p.bulge * bulgeShape, 1.5);
+}
+
+function buildGeometry(p){
+  const heightSeg = 100, radialSeg = 96;
+  const positions = [];
+  const indices = [];
+
+  // ---- outer wall ----
+  for(let i=0;i<=heightSeg;i++){
+    const v = i/heightSeg;
+    const y = v * p.height;
+    const baseR = profileRadius(v, p);
+    const twistAngle = THREE.MathUtils.degToRad(p.twist) * v;
+    for(let j=0;j<=radialSeg;j++){
+      const u = j/radialSeg;
+      const theta = u * Math.PI * 2;
+      const ripple = p.rippleCount > 0 ? p.rippleDepth * Math.sin(p.rippleCount*theta - twistAngle) : 0;
+      const r = Math.max(baseR + ripple, 0.5);
+      positions.push(r*Math.cos(theta), y, r*Math.sin(theta));
+    }
+  }
+  const rowStride = radialSeg+1;
+  for(let i=0;i<heightSeg;i++){
+    for(let j=0;j<radialSeg;j++){
+      const a = i*rowStride+j, b = a+1, c = a+rowStride, d = c+1;
+      indices.push(a,c,b, b,c,d);
+    }
+  }
+  const outerTopRowStart = heightSeg * rowStride;
+  const outerTopR = profileRadius(1, p);
+
+  // ---- floor: always a solid, closed base ----
+  appendTopClosure(positions, indices, 0, radialSeg, 0, profileRadius(0, p), 0, 0);
+
+  const thickness = p.wallThickness || 0;
+
+  if(thickness < 0.15){
+    // no meaningful wall — single surface, opening as before (not print-safe as a solid; vase-mode only)
+    appendTopClosure(positions, indices, outerTopRowStart, radialSeg, p.height, outerTopR, p.openingRadius, 0);
+  } else {
+    // an opening can't be wider than the cavity that wall thickness leaves behind
+    const innerTopR = Math.max(outerTopR - thickness, 1.5);
+    const effectiveOpening = Math.min(Math.max(p.openingRadius, 0), innerTopR);
+
+    // lip: connects the outer wall's top edge down to the (possibly narrower) opening
+    appendTopClosure(positions, indices, outerTopRowStart, radialSeg, p.height, outerTopR, effectiveOpening, 0);
+
+    if(effectiveOpening > 1){
+      // ---- inner wall: a smaller, inverted-winding copy of the outer wall,
+      // offset inward by the wall thickness, forming the hollow cavity ----
+      const floorFrac = Math.min(Math.max((thickness*1.2) / p.height, 0.015), 0.3);
+      const innerHeightSeg = heightSeg;
+      const innerStart = positions.length/3;
+      for(let i=0;i<=innerHeightSeg;i++){
+        const v = floorFrac + (1-floorFrac) * (i/innerHeightSeg);
+        const y = v * p.height;
+        const rOuterHere = profileRadius(v, p); // smooth base profile — ignores flutes so the cavity never pokes through a ripple valley
+        const rInner = Math.max(rOuterHere - thickness, 1.5);
+        for(let j=0;j<=radialSeg;j++){
+          const theta = (j/radialSeg) * Math.PI * 2;
+          positions.push(rInner*Math.cos(theta), y, rInner*Math.sin(theta));
+        }
+      }
+      // reversed winding vs the outer wall, so the normal faces the hollow cavity
+      for(let i=0;i<innerHeightSeg;i++){
+        for(let j=0;j<radialSeg;j++){
+          const a = innerStart + i*rowStride+j, b = a+1, c = a+rowStride, d = c+1;
+          indices.push(a,b,c, b,d,c);
+        }
+      }
+      // seals the bottom of the hollow cavity (the top of the solid floor slab)
+      appendTopClosure(positions, indices, innerStart, radialSeg, floorFrac*p.height, 999, 0, 0);
+    }
+  }
+
+  const geom = new THREE.BufferGeometry();
+  geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geom.setIndex(indices);
+  geom.computeVertexNormals();
+  return geom;
+}
+
+function surfacePoint(u, v, p){
+  const y = v * p.height;
+  const r = profileRadius(v, p);
+  const twistAngle = THREE.MathUtils.degToRad(p.twist) * v;
+  const theta = u * Math.PI * 2 - twistAngle;
+  return new THREE.Vector3(r * Math.cos(theta), y, r * Math.sin(theta));
+}
+
+// ---- Voronoi cell pattern, computed on a wrapped (u,v) strip ----
+function computeVoronoi(n){
+  const pts = [];
+  for(let i=0;i<n;i++){
+    pts.push({ u: Math.random(), v: 0.03 + Math.random()*0.94 });
+  }
+  const extended = [];
+  pts.forEach(p=>{
+    extended.push({ x:p.u-1, y:p.v, copy:-1 });
+    extended.push({ x:p.u,   y:p.v, copy:0  });
+    extended.push({ x:p.u+1, y:p.v, copy:1  });
+  });
+  const voronoiFn = d3.voronoi().x(d=>d.x).y(d=>d.y).extent([[-1,0],[2,1]]);
+  const diagram = voronoiFn(extended);
+  const edges = [];
+  diagram.edges.forEach(e=>{
+    if(!e || !e[0] || !e[1]) return;
+    const leftCopy = e.left ? (e.left.data ? e.left.data.copy : e.left.copy) : null;
+    const rightCopy = e.right ? (e.right.data ? e.right.data.copy : e.right.copy) : null;
+    if(leftCopy !== 0 && rightCopy !== 0) return;
+    edges.push([ {u:e[0][0], v:e[0][1]}, {u:e[1][0], v:e[1][1]} ]);
+  });
+  if(edges.length === 0){
+    // fallback: keep every valid edge (may duplicate a few at the seam, harmless)
+    diagram.edges.forEach(e=>{
+      if(!e || !e[0] || !e[1]) return;
+      edges.push([ {u:e[0][0], v:e[0][1]}, {u:e[1][0], v:e[1][1]} ]);
+    });
+  }
+  return { points: pts, edges: edges.slice(0, 1500) };
+}
+
+// appends a template geometry's verts (transformed by matrix) into shared arrays
+function appendTransformed(templateGeom, matrix, posArr, idxArr, offsetRef){
+  const p = templateGeom.attributes.position.array;
+  const vOffset = offsetRef.count;
+  const v = new THREE.Vector3();
+  for(let i=0;i<p.length;i+=3){
+    v.set(p[i], p[i+1], p[i+2]).applyMatrix4(matrix);
+    posArr.push(v.x, v.y, v.z);
+  }
+  if(templateGeom.index){
+    const idx = templateGeom.index.array;
+    for(let i=0;i<idx.length;i++) idxArr.push(idx[i] + vOffset);
+  } else {
+    // non-indexed geometry (e.g. IcosahedronGeometry) — positions are already triangle triples
+    const count = p.length/3;
+    for(let i=0;i<count;i++) idxArr.push(i + vOffset);
+  }
+  offsetRef.count += p.length/3;
+}
+
+// closes a ring of vertices at the top: solid disc if opening is ~0, an annular
+// rim with a hole if opening is smaller than the outer radius, or left fully
+// open (no cap at all) if the opening is as wide as the vessel itself
+function appendTopClosure(posArr, idxArr, topRowStart, radialSeg, y, outerR, opening, twistAngle){
+  if(opening >= outerR * 0.94) return; // fully open mouth, nothing to add
+  if(opening <= 0.5){
+    const centerIdx = posArr.length/3;
+    posArr.push(0, y, 0);
+    for(let j=0;j<radialSeg;j++) idxArr.push(centerIdx, topRowStart+j, topRowStart+j+1);
+    return;
+  }
+  const innerStart = posArr.length/3;
+  for(let j=0;j<=radialSeg;j++){
+    const theta = (j/radialSeg) * Math.PI * 2 - twistAngle;
+    posArr.push(opening*Math.cos(theta), y, opening*Math.sin(theta));
+  }
+  for(let j=0;j<radialSeg;j++){
+    const oa = topRowStart+j, ob = topRowStart+j+1, ia = innerStart+j, ib = innerStart+j+1;
+    idxArr.push(oa, ia, ob,  ob, ia, ib);
+  }
+}
+
+// an open tube segment — no caps. Real boundary caps (floor, opening) are
+// added separately in buildLatticeGeometry so they aren't buried under a
+// redundant internal seal where the band meets the lattice.
+function appendBand(vStart, vEnd, p, posArr, idxArr, offsetRef){
+  const heightSeg = 8, radialSeg = 96;
+  const local = [];
+  for(let i=0;i<=heightSeg;i++){
+    const v = vStart + (vEnd-vStart)*(i/heightSeg);
+    const y = v * p.height;
+    const r = profileRadius(v, p);
+    const twistAngle = THREE.MathUtils.degToRad(p.twist) * v;
+    for(let j=0;j<=radialSeg;j++){
+      const theta = (j/radialSeg) * Math.PI * 2 - twistAngle;
+      local.push(r*Math.cos(theta), y, r*Math.sin(theta));
+    }
+  }
+  const rowStride = radialSeg+1;
+  const localIdx = [];
+  for(let i=0;i<heightSeg;i++){
+    for(let j=0;j<radialSeg;j++){
+      const a=i*rowStride+j, b=a+1, c=a+rowStride, d=c+1;
+      localIdx.push(a,c,b, b,c,d);
+    }
+  }
+  const vOffset = offsetRef.count;
+  for(let i=0;i<local.length;i+=3) posArr.push(local[i], local[i+1], local[i+2]);
+  for(let i=0;i<localIdx.length;i++) idxArr.push(localIdx[i] + vOffset);
+  offsetRef.count += local.length/3;
+}
+
+const BAND_HEIGHT_SEG = 8, BAND_RADIAL_SEG = 96;
+
+const strutTemplate = new THREE.CylinderGeometry(1,1,1,6,1);
+const nodeTemplate = new THREE.IcosahedronGeometry(1,1);
+
+function buildLatticeGeometry(p, lattice){
+  const positions = [];
+  const indices = [];
+  const offsetRef = { count:0 };
+  const strutR = p.strutThickness/2;
+
+  lattice.edges.forEach(edge=>{
+    const p1 = surfacePoint(edge[0].u, edge[0].v, p);
+    const p2 = surfacePoint(edge[1].u, edge[1].v, p);
+    const len = p1.distanceTo(p2);
+    if(len < 0.01) return;
+    const dir = new THREE.Vector3().subVectors(p2,p1).normalize();
+    const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), dir);
+    const mid = new THREE.Vector3().addVectors(p1,p2).multiplyScalar(0.5);
+    const m = new THREE.Matrix4().compose(mid, quat, new THREE.Vector3(strutR, len, strutR));
+    appendTransformed(strutTemplate, m, positions, indices, offsetRef);
+  });
+
+  const seen = new Map();
+  lattice.edges.forEach(edge=>{
+    [edge[0], edge[1]].forEach(pt=>{
+      const key = pt.u.toFixed(4)+','+pt.v.toFixed(4);
+      if(!seen.has(key)) seen.set(key, pt);
+    });
+  });
+  seen.forEach(pt=>{
+    const pos = surfacePoint(pt.u, pt.v, p);
+    const s = strutR*1.15;
+    const m = new THREE.Matrix4().compose(pos, new THREE.Quaternion(), new THREE.Vector3(s,s,s));
+    appendTransformed(nodeTemplate, m, positions, indices, offsetRef);
+  });
+
+  const rimFrac = Math.min(Math.max(p.rimWidth / p.height, 0.012), 0.25);
+  const rowStride = BAND_RADIAL_SEG + 1;
+
+  // bottom rim: open tube, then a true solid floor cap at v=0
+  const bottomBandStart = offsetRef.count;
+  appendBand(0, rimFrac, p, positions, indices, offsetRef);
+  appendTopClosure(positions, indices, bottomBandStart, BAND_RADIAL_SEG, 0, profileRadius(0, p), 0, 0);
+
+  // top rim: open tube, then the true mouth at v=1 — solid, annular, or fully open per Opening radius
+  const topBandStart = offsetRef.count;
+  appendBand(1-rimFrac, 1, p, positions, indices, offsetRef);
+  const topRowGlobalStart = topBandStart + BAND_HEIGHT_SEG * rowStride;
+  const outerTopR = profileRadius(1, p);
+  const topTwist = THREE.MathUtils.degToRad(p.twist) * 1;
+  appendTopClosure(positions, indices, topRowGlobalStart, BAND_RADIAL_SEG, p.height, outerTopR, p.openingRadius, topTwist);
+
+  const geom = new THREE.BufferGeometry();
+  geom.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+  geom.setIndex(indices);
+  geom.computeVertexNormals();
+  return geom;
+}
+
+function regenerate(){
+  const geom = params.mode === 'voronoi'
+    ? buildLatticeGeometry(params, latticeData)
+    : buildGeometry(params);
+  if(mesh){ scene.remove(mesh); mesh.geometry.dispose(); }
+  mesh = new THREE.Mesh(geom, material);
+  scene.add(mesh);
+  updateTitleBlock();
+}
+
+function updateTitleBlock(){
+  const maxR = Math.max(
+    profileRadius(0, params), profileRadius(0.5, params), profileRadius(1, params)
+  ) + params.rippleDepth;
+  const outerR = profileRadius(1, params);
+  const openingNote = params.openingRadius <= 0.5
+    ? ' · sealed'
+    : params.openingRadius >= outerR*0.94
+      ? ''
+      : ` · ⌀${Math.round(params.openingRadius*2)} mouth`;
+  document.getElementById('tb-dims').textContent =
+    `${Math.round(params.height)} × ${Math.round(maxR*2)} mm${openingNote}`;
+  document.getElementById('tb-rev').textContent = String(revision).padStart(2,'0');
+  document.getElementById('tb-part').textContent = 'VSL-' + String(revision).padStart(4,'0');
+}
+document.getElementById('tb-date').textContent = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+
+// ---------- UI bindings ----------
+const sliderMeta = {
+  height:{ suffix:' mm' }, baseRadius:{ suffix:' mm' }, topRadius:{ suffix:' mm' },
+  bulge:{ suffix:' mm' }, rippleCount:{ suffix:'' }, rippleDepth:{ suffix:' mm' },
+  twist:{ suffix:'°' }, cellCount:{ suffix:'' }, strutThickness:{ suffix:' mm' },
+  rimWidth:{ suffix:' mm' }, openingRadius:{ suffix:' mm' }, wallThickness:{ suffix:' mm' }
+};
+function updateOpeningHint(){
+  const neckR = profileRadius(1, params);
+  const outerR = (params.mode === 'smooth')
+    ? Math.max(neckR - params.wallThickness, 1.5)
+    : neckR;
+  const o = params.openingRadius;
+  const hint = document.getElementById('opening-hint');
+  if(o <= 0.5) hint.textContent = 'Closed — a solid, sealed top, no mouth.';
+  else if(o >= outerR * 0.94) hint.textContent = params.mode === 'smooth'
+    ? 'Fully open — as wide as the hollow cavity allows given the wall thickness.'
+    : 'Fully open — the mouth is as wide as the neck itself.';
+  else hint.textContent = `A rimmed lip: ${Math.round(o*2)} mm opening inside a ${Math.round(neckR*2)} mm neck.`;
+}
+Object.keys(sliderMeta).forEach(key=>{
+  const input = document.getElementById(key);
+  const out = document.getElementById('v-'+key);
+  input.addEventListener('input', ()=>{
+    params[key] = parseFloat(input.value);
+    out.textContent = input.value + sliderMeta[key].suffix;
+    if(key === 'cellCount') latticeData = computeVoronoi(params.cellCount);
+    revision++;
+    regenerate();
+    updateOpeningHint();
+  });
+});
+
+document.querySelectorAll('.mode-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    params.mode = btn.dataset.mode;
+    document.getElementById('flute-controls').style.display = params.mode === 'smooth' ? 'block' : 'none';
+    document.getElementById('voronoi-controls').style.display = params.mode === 'voronoi' ? 'block' : 'none';
+    document.getElementById('wall-thickness-controls').style.display = params.mode === 'smooth' ? 'block' : 'none';
+    if(params.mode === 'voronoi' && !latticeData) latticeData = computeVoronoi(params.cellCount);
+    revision++;
+    regenerate();
+    updateOpeningHint();
+  });
+});
+
+document.getElementById('shuffle').addEventListener('click', ()=>{
+  latticeData = computeVoronoi(params.cellCount);
+  revision++;
+  regenerate();
+});
+
+document.getElementById('theme-toggle').addEventListener('click', ()=>{
+  const isDark = document.body.classList.toggle('dark');
+  document.getElementById('theme-toggle').textContent = isDark ? 'Light mode' : 'Dark mode';
+  applyTheme(isDark);
+});
+
+document.querySelectorAll('.swatch').forEach(sw=>{
+  sw.addEventListener('click', ()=>{
+    document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('active'));
+    sw.classList.add('active');
+    material.color.set(sw.dataset.color);
+    params.color = sw.dataset.color;
+  });
+});
+
+document.getElementById('randomize').addEventListener('click', ()=>{
+  const rand = (min,max)=> Math.round((min + Math.random()*(max-min))*10)/10;
+  params.height = rand(120,260);
+  params.baseRadius = rand(25,65);
+  params.topRadius = rand(10,60);
+  params.bulge = rand(-15,45);
+  params.twist = Math.round(rand(-180,180));
+  params.openingRadius = Math.random() < 0.5 ? params.topRadius : rand(0, params.topRadius);
+  if(params.mode === 'voronoi'){
+    params.cellCount = Math.round(rand(30,130));
+    params.strutThickness = rand(1.2,4);
+    params.rimWidth = rand(3,14);
+    latticeData = computeVoronoi(params.cellCount);
+  } else {
+    params.rippleCount = Math.round(rand(0,16));
+    params.rippleDepth = rand(0,9);
+  }
+  Object.keys(sliderMeta).forEach(key=>{
+    document.getElementById(key).value = params[key];
+    document.getElementById('v-'+key).textContent = params[key] + sliderMeta[key].suffix;
+  });
+  revision++;
+  regenerate();
+  updateOpeningHint();
+});
+
+// ---------- STL export (binary, hand-rolled) ----------
+function exportSTL(geometry){
+  const index = geometry.index.array;
+  const pos = geometry.attributes.position.array;
+  const triCount = index.length/3;
+  const buffer = new ArrayBuffer(84 + 50*triCount);
+  const dv = new DataView(buffer);
+  dv.setUint32(80, triCount, true);
+  let offset = 84;
+  const vA=new THREE.Vector3(), vB=new THREE.Vector3(), vC=new THREE.Vector3();
+  const cb=new THREE.Vector3(), ab=new THREE.Vector3(), n=new THREE.Vector3();
+  for(let i=0;i<triCount;i++){
+    const ia=index[i*3], ib=index[i*3+1], ic=index[i*3+2];
+    vA.fromArray(pos, ia*3); vB.fromArray(pos, ib*3); vC.fromArray(pos, ic*3);
+    cb.subVectors(vC, vB); ab.subVectors(vA, vB); n.crossVectors(cb, ab).normalize();
+    dv.setFloat32(offset, n.x, true); offset+=4;
+    dv.setFloat32(offset, n.y, true); offset+=4;
+    dv.setFloat32(offset, n.z, true); offset+=4;
+    [vA,vB,vC].forEach(v=>{
+      dv.setFloat32(offset, v.x, true); offset+=4;
+      dv.setFloat32(offset, v.y, true); offset+=4;
+      dv.setFloat32(offset, v.z, true); offset+=4;
+    });
+    offset += 2;
+  }
+  return buffer;
+}
+
+function exportOBJ(geometry){
+  const pos = geometry.attributes.position.array;
+  const index = geometry.index ? geometry.index.array : null;
+  const lines = [`# Parametric Vessel Generator`, `o Vessel-${String(revision).padStart(4,'0')}`];
+  for(let i=0;i<pos.length;i+=3){
+    lines.push(`v ${pos[i]} ${pos[i+1]} ${pos[i+2]}`);
+  }
+  if(index){
+    for(let i=0;i<index.length;i+=3){
+      lines.push(`f ${index[i]+1} ${index[i+1]+1} ${index[i+2]+1}`);
+    }
+  } else {
+    for(let i=0;i<pos.length/3;i+=3){
+      lines.push(`f ${i+1} ${i+2} ${i+3}`);
+    }
+  }
+  return lines.join('\n');
+}
+
+function downloadExport(contents, type, extension){
+  const blob = new Blob([contents], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `vessel-${String(revision).padStart(4,'0')}.${extension}`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('export').addEventListener('click', ()=>{
+  if(!mesh) return;
+  downloadExport(exportSTL(mesh.geometry), 'application/octet-stream', 'stl');
+});
+
+document.getElementById('export-obj').addEventListener('click', ()=>{
+  if(!mesh) return;
+  downloadExport(exportOBJ(mesh.geometry), 'text/plain;charset=utf-8', 'obj');
+});
+
+// ---------- resize ----------
+window.addEventListener('resize', ()=>{
+  camera.aspect = holder.clientWidth/holder.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(holder.clientWidth, holder.clientHeight);
+});
+
+// ---------- boot ----------
+latticeData = computeVoronoi(params.cellCount);
+updateOpeningHint();
+updateCamera();
+regenerate();
+(function loop(){
+  requestAnimationFrame(loop);
+  renderer.render(scene, camera);
+  orientationRenderer.render(orientationScene, orientationCamera);
+})();
+</script>
+</body>
+</html>
